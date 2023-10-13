@@ -17,6 +17,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "mysql": "^2.18.1",
+    "nagad-payment-gateway": "^2.0.2",
     "nodemon": "^3.0.1"
   }
 }

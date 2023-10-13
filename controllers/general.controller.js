@@ -1,14 +1,14 @@
-const { general_api_log } = require("../library/helper");
-const { acquireChargingUrlService }=require("../services/general.service")
+const helper = require("../library/helper");
+const general_service = require("../services/general.service")
 
 exports.acquireChargingUrl = async (req, res) => {
     try {
 
         let { amount } = req.body;
-        
-            let result = await acquireChargingUrlService(amount);
-            general_api_log(req, 'logs', "acquireChargingUrl_", JSON.stringify(req.body), JSON.stringify(result));
-            res.status(200).send(result);
+
+        let result = await general_service.acquireChargingUrlService(amount);
+        await helper.api_log(req, 'logs', "controller_log", "acquireChargingUrl_", JSON.stringify(req.body), JSON.stringify(result));
+        res.status(200).send(result);
 
 
     }
