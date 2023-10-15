@@ -14,6 +14,9 @@ app.use(cors(corsOptions));
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+app.get("/", async (req, res) => {
+    res.status(200).send({message:`welcome to home of ngp`});
+});
 require('./routes/general.route')(app);
 
 app.listen(PORT, () => {
