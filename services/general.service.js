@@ -61,14 +61,26 @@ const acquireChargingUrlService = async (amount) => {
         }
         const config = {
             apiVersion: 'v-0.2.0',
-            baseURL: nAgad_pgw_configuration_object['BASE_URL'],
-            callbackURL: nAgad_pgw_configuration_object['CALLBACK_URL'],
-            merchantID: nAgad_pgw_configuration_object.MERCHANT_ID,
-            merchantNumber: nAgad_pgw_configuration_object.MERCHANT_NUMBER,
-            privKey:  nAgad_pgw_configuration_object.PRIVATE_KEY ,
-            pubKey: nAgad_pgw_configuration_object.PUBLIC_KEY,
-            isPath: false,
+            baseURL: 'http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0',
+            callbackURL: 'http://137.184.250.129:8206',
+            merchantID: '685500771815399',
+            merchantNumber:'01550077181',
+            privKey: path.resolve(__dirname, "../keys/Merchant_MC00MXVK0098437_1697646586056_pri.pem"),
+            pubKey: path.resolve(__dirname, "../keys/Merchant_MC00MXVK0098437_1697646586056_pub.pem"),
+            isPath: true
+
         };
+        // const config = {
+        //     apiVersion: 'v-0.2.0',
+        //     baseURL: nAgad_pgw_configuration_object['BASE_URL'],
+        //     callbackURL: nAgad_pgw_configuration_object['CALLBACK_URL'],
+        //     merchantID: nAgad_pgw_configuration_object.MERCHANT_ID,
+        //     merchantNumber: nAgad_pgw_configuration_object.MERCHANT_NUMBER,
+        //     privKey:  nAgad_pgw_configuration_object.PRIVATE_KEY ,
+        //     pubKey: nAgad_pgw_configuration_object.PUBLIC_KEY,
+        //     isPath: false,
+
+        // };
 
         const nagad = new NagadGateway(config);
             console.log({nagad})
