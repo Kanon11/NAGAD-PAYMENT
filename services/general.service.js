@@ -81,8 +81,6 @@ const acquireChargingUrlService = async (amount) => {
                 clientType: 'PC_WEB',
             });
             response.nagadURL=nagadURL
-            // console.log(nagadURL);
-            //redirect user to the nagad url
         } catch (err) {
             console.log(err);
         }
