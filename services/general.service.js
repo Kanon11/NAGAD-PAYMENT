@@ -62,7 +62,7 @@ const acquireChargingUrlService = async (amount) => {
         const config = {
             apiVersion: 'v-0.2.0',
             baseURL: 'http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0',
-            callbackURL: 'http://137.184.250.129:8206',
+            callbackURL: 'http://137.184.250.129:8206/general/webhook',
             merchantID: '685500771815399',
             merchantNumber:'01550077181',
             privKey: path.resolve(__dirname, "../keys/Merchant_MC00MXVK0098437_1697911675356_pri.pem"),
