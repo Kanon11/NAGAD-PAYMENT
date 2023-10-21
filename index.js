@@ -2,7 +2,7 @@ const {PORT}=require("./config/env.config")
 
 const express = require("express");
 const app = express();
-
+process.env.TZ = 'Asia/Dhaka'; 
 
 
 const cors = require("cors");
