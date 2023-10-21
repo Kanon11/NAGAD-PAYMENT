@@ -18,6 +18,7 @@ exports.acquireChargingUrl = async (req, res) => {
 }
 exports.webHook = async (req, res) => {
     try {
+        console.log("webhook req.body: ",req.body)
         result = { status_cod: 200, message: `callback received from weebhook` };
         await helper.api_log(req, 'logs', "controller_log", "webHook_", JSON.stringify(req.body), JSON.stringify(result));
         res.status(200).send(result);
