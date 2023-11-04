@@ -9,46 +9,25 @@ const { default: axios } = require("axios");
 const nAgad_json_string = fs.readFileSync(path.resolve(__dirname, "../keys/nagad_essential.json")); 
 const nAgad_pgw_configuration_object = JSON.parse(nAgad_json_string); //object hoea gase;
 
-const acquireChargingUrlService_old = async (amount) => {
+const nagad = require("../config/ngp.config");
+
+const webHookService = async (merchant, order_id, payment_ref_id, status, status_code, message) => {
     let response = {};
     response.statusCode = 300;
     response.status = false;
     try {
-        if (!!!amount) {
-            response.message = "amount parameter is required";
-            return response;
-        }
-        let baseURL = "https://securepay.magicway.io/api/V1";
-        let client_id = 'mkd6435c91b4a19e331aa';
-        let client_secret = "d61792c501a971b4a19e331aa68842gf";
-        let username = "mkiddo";
-        let email = "mkiddo@momagicbd.com";
+        const verifyResult = await nagad.verifyPayment(payment_ref_id);
+        response.status = true;
+        response.statusCode = 200;
+        response.verifyResult = verifyResult;
+        console.log("vf: ",verifyResult)
 
-        let payload = JSON.stringify({
-            "store_id": client_id,
-            "grant_type": "password",
-            "store_secret": client_secret,
-            "username": username,
-            "email": email
-        })
-        const token_response = await axios.post(`${baseURL}/auth/token`, payload, {
-            headers: {
-                'Content-Type': 'application/json',
-            }
-        })
-
-        const apiResponse = token_response.data;
-        response.apiResponse = apiResponse;
-        await helper.service_log('logs', 'service_log', 'acquireChargingUrlService_', 'test', 'test');
-        return response;
     } catch (error) {
         response.message = error.message;
-        return response;
+        console.log(err);
     }
-    finally {
-        
-    }
-
+    await helper.service_log('logs', 'service_log', 'webHookService_', payment_ref_id, JSON.stringify(response));
+    return response;
 }
 const acquireChargingUrlService = async (amount) => {
     let response = {};
@@ -59,41 +38,19 @@ const acquireChargingUrlService = async (amount) => {
             response.message = "amount parameter is required";
             return response;
         }
-        const config = {
-            apiVersion: 'v-0.2.0',
-            baseURL: 'http://sandbox.mynagad.com:10080/remote-payment-gateway-1.0',
-            callbackURL: 'http://137.184.250.129:8206/general/webhook',
-            merchantID: '685500771815399',
-            merchantNumber:'01550077181',
-            privKey: path.resolve(__dirname, "../keys/Merchant_MC00MXVK0098437_1697911675356_pri.pem"),
-            pubKey: path.resolve(__dirname, "../keys/Merchant_MC00MXVK0098437_1697911675356_pub.pem"),
-            isPath: true
-
-        };
-        // const config = {
-        //     apiVersion: 'v-0.2.0',
-        //     baseURL: nAgad_pgw_configuration_object['BASE_URL'],
-        //     callbackURL: nAgad_pgw_configuration_object['CALLBACK_URL'],
-        //     merchantID: nAgad_pgw_configuration_object.MERCHANT_ID,
-        //     merchantNumber: nAgad_pgw_configuration_object.MERCHANT_NUMBER,
-        //     privKey:  nAgad_pgw_configuration_object.PRIVATE_KEY ,
-        //     pubKey: nAgad_pgw_configuration_object.PUBLIC_KEY,
-        //     isPath: false,
-
-        // };
-
-        const nagad = new NagadGateway(config);
-            console.log({nagad})
         try {
             const nagadURL = await nagad.createPayment({
                 amount: amount,
-                ip: '10.10.0.10',
+                ip: '137.184.250.129',
                 orderId: `${Date.now()}`,
-                productDetails: { a: '1', b: '2' },
+                // productDetails: { a: '1', b: '2' },
                 clientType: 'PC_WEB',
             });
+            response.status = true;
+            response.statusCode = 200;
             response.nagadURL=nagadURL
         } catch (err) {
+            response.message = err.message;
             console.log(err);
         }
 
@@ -109,5 +66,6 @@ const acquireChargingUrlService = async (amount) => {
 
 }
 module.exports = {
-    acquireChargingUrlService
+    acquireChargingUrlService,
+    webHookService
 }

@@ -18,9 +18,10 @@ exports.acquireChargingUrl = async (req, res) => {
 }
 exports.webHook = async (req, res) => {
     try {
-        console.log("webhook req.body: ",req.body)
-        result = { status_cod: 200, message: `callback received from weebhook` };
-        await helper.api_log(req, 'logs', "controller_log", "webHook_", JSON.stringify(req.body), JSON.stringify(result));
+        console.log("webhook req.query: ", req.query)
+        let { merchant, order_id, payment_ref_id, status, status_code, message } = req.query;
+        let result = await general_service.webHookService(merchant, order_id, payment_ref_id, status, status_code, message)
+        await helper.api_log(req, 'logs', "controller_log", "webHook_", JSON.stringify(req.query), JSON.stringify(result));
         res.status(200).send(result);
     }
     catch (error) {
