@@ -41,7 +41,7 @@ const webHookService = async (merchant, order_id, payment_ref_id, status, status
         console.log("update_get_charge_url_query_result: ", update_get_charge_url_query_result);
     } catch (error) {
         response.message = error.message;
-        console.log(err);
+        console.log(error);
     }
 
     await helper.service_log('logs', 'service_log', 'webHookService_', payment_ref_id, JSON.stringify(response));
