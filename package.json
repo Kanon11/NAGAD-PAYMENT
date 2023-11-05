@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "NODE_ENV=local nodemon index.js",
-    "prod": "NODE_ENV=production  nodemon index.js"
+    "dev": "set NODE_ENV=local&& nodemon index.js",
+    "prod": "set NODE_ENV=production&& nodemon index.js"
   },
   "keywords": [],
   "author": "",

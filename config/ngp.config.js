@@ -11,5 +11,6 @@ const config = {
     isPath: true
 
 };
+console.log("config: ", config);
 const nagad = new NagadGateway(config);
 module.exports = nagad;
