@@ -31,17 +31,17 @@ const webHookService = async (merchant, order_id, payment_ref_id, status, status
             response.status = true;
             response.statusCode = 200;
             response.verifyResult = verifyResult;
-            response.url = "https://www.youtube.com/";
+            response.url = "https://ashikurrahman25.github.io/success";
         }
         else {
             response.verifyResult = verifyResult;
-            response.url = "https://www.google.com/";
+            response.url = "https://ashikurrahman25.github.io/failed";
         }
         let update_get_charge_url_query_result=  await update_get_charge_url_query(orderId, status, JSON.stringify(verifyResult), dbConnectionObject);
         console.log("update_get_charge_url_query_result: ", update_get_charge_url_query_result);
     } catch (error) {
         response.message = error.message;
-        console.log(err);
+        console.log(error);
     }
 
     await helper.service_log('logs', 'service_log', 'webHookService_', payment_ref_id, JSON.stringify(response));
