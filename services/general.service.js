@@ -1,15 +1,8 @@
 
 const helper = require("../library/helper")
-const { NagadGateway } = require('nagad-payment-gateway');
-const fs = require('fs');
-const privateKeyPath = '../keys/merchantPrivateKey.txt';
-const { BASE_URL, CALLBACK_URL, MERCHANT_ID, MERCHANT_NUMBER,P_KEY,PU_KEY } = require("../config/env.config");
-const path = require("path");
-const { default: axios } = require("axios");
-const nAgad_json_string = fs.readFileSync(path.resolve(__dirname, "../keys/nagad_essential.json")); 
-const nAgad_pgw_configuration_object = JSON.parse(nAgad_json_string); //object hoea gase;
 
-const nagad = require("../config/ngp.config");
+// const nagad = require("../config/ngp.config"); //staging
+const nagad = require("../config/ngp.config.live"); //live
 const { dbConf, makeDb } = require("../config/db.config");
 const { insert_get_charge_url_query, update_get_charge_url_query } = require("../library/db.helper");
 const util = require("util");
@@ -61,7 +54,7 @@ const acquireChargingUrlService = async (msisdn,amount) => {
         const order_id = Date.now();
         let order_object = {
             amount: amount,
-            ip: '137.184.250.129',
+            ip: process.env.NODE_ENV === 'local' ? "103.100.102.100" : '137.184.250.129',
             orderId: `${order_id}`,
             // productDetails: { a: '1', b: '2' },
             clientType: 'PC_WEB',
